@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { SidebarButton } from "./SidebarButton";
 import { SidebarItems } from "@/types";
 import Link from "next/link";
@@ -11,14 +12,50 @@ import { LogOut, MoreHorizontal, Settings } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { ThemeToggle } from "./ThemeToggle";
 import { createClient } from "@/utils/supabase/client";
-import { useEffect } from "react";
 
 interface SidebarDesktopProps {
   sidebarItems: SidebarItems;
 }
 
+interface User {
+  id: string;
+  email: string;
+  name?: string;
+  [key: string]: any; // To allow other user properties
+}
+
 export function SidebarDesktop(props: SidebarDesktopProps) {
+  const supabase = createClient();
   const pathname = usePathname();
+  const [user, setUser] = useState<User | null>(null);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    const getUser = async () => {
+      const {
+        data: { user },
+        error,
+      } = await supabase.auth.getUser();
+      if (error) {
+        console.error("Error fetching user:", error);
+      } else {
+        console.log("Fetched user:", user);
+        setUser(user as User);
+      }
+    };
+
+    getUser();
+  }, []);
+
+  const getInitials = (nameOrEmail: string | undefined) => {
+    if (!nameOrEmail) return "U"; // Default fallback
+    const [firstName, lastName] = nameOrEmail.split(" ");
+    if (lastName) {
+      return `${firstName[0]}${lastName[0]}`.toUpperCase();
+    } else {
+      return nameOrEmail.slice(0, 2).toUpperCase();
+    }
+  };
 
   return (
     <aside className="w-[270px] max-w-xs h-screen fixed left-0 top-0 z-40 border-r">
@@ -52,10 +89,12 @@ export function SidebarDesktop(props: SidebarDesktopProps) {
                   <div className="flex justify-between items-center w-full">
                     <div className="flex gap-2">
                       <Avatar className="h-5 w-5">
-                        {/* <AvatarImage src="https://github.com/max-programming.png" /> */}
-                        <AvatarFallback>User</AvatarFallback>
+                        {/* Assuming user has a `name` property */}
+                        <AvatarFallback>
+                          {user ? getInitials(user.name || user.email) : "U"}
+                        </AvatarFallback>
                       </Avatar>
-                      <span>User</span>
+                      <span>{user ? user.email : "User"}</span>
                     </div>
                     <MoreHorizontal size={20} />
                   </div>

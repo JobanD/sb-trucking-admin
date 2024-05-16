@@ -3,7 +3,7 @@ import { createClient } from "@/utils/supabase/server";
 import { columns, Drivers } from "../../utils/columns/driverColumns";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { DataTable } from "../../components/data-table";
+import { DataTable } from "../../components/table/data-table";
 
 const getDriverData = async (): Promise<Drivers[]> => {
   const supabase = createClient();

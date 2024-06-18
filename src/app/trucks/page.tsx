@@ -1,34 +1,24 @@
-import React from "react";
-import { createClient } from "@/utils/supabase/server";
-import { columns, Trucks } from "../../utils/columns/truckColumns";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { DataTable } from "../../components/table/data-table";
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from "@tanstack/react-query";
+import { prefetchQuery } from "@supabase-cache-helpers/postgrest-react-query";
+import useSupabaseServer from "@/utils/supabase-server";
+import { getAllTrucks } from "@/queries/get-all-trucks";
+import TruckList from "@/components/TruckList";
+import { cookies } from "next/headers";
 
-const getTruckData = async (): Promise<Trucks[]> => {
-  const supabase = createClient();
-  const { data: trucks, error } = await supabase.from("trucks").select("*");
+export default async function TruckPage() {
+  const queryClient = new QueryClient();
+  const cookieStore = cookies();
+  const supabase = useSupabaseServer(cookieStore);
 
-  return trucks || [];
-};
-
-// const insertTruckData = async (): Promise<Trucks[]> => {
-//   const supabase = createClient()
-
-// const { data, error } = await supabase.from('carriers').insert([
-//   { some_column: 'someValue', other_column: 'otherValue' },
-// ]).select()
-
-// }
-
-const TruckPage = async () => {
-  const data = await getTruckData();
+  await prefetchQuery(queryClient, getAllTrucks(supabase));
 
   return (
-    <div>
-      <DataTable columns={columns} data={data} />
-    </div>
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <TruckList />
+    </HydrationBoundary>
   );
-};
-
-export default TruckPage;
+}

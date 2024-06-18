@@ -62,7 +62,7 @@ export function DataTable<TData, TValue>({
 
   return (
     <div>
-      {/* ADD FILTERING TO COLUMN IF WANTEDs */}
+      {/* ADD FILTERING TO COLUMN IF WANTED */}
       <div className="flex items-center py-4">
         {/* <Input
           placeholder="Filter emails..."

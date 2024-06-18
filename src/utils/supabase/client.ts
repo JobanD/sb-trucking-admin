@@ -16,7 +16,7 @@ export function createClient() {
     if (session) {
       const jwt = jwtDecode<CustomJwtPayload>(session.access_token);
       const userRole = jwt.user_role;
-      console.log("User role:", userRole);
+      // console.log("User role:", userRole);
       // You can store the userRole in your state management system if needed
     }
   });

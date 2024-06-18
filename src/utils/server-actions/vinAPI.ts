@@ -1,3 +1,4 @@
+"use server";
 export const fetchVehicleByVIN = async (vin: string) => {
   const url = `https://vpic.nhtsa.dot.gov/api/vehicles/decodevin/${vin}?format=json`;
   try {

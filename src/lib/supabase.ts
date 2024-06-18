@@ -117,6 +117,45 @@ export type Database = {
         }
         Relationships: []
       }
+      delivery_images: {
+        Row: {
+          id: string
+          image_url: string
+          order_id: string | null
+          trip_id: string | null
+          uploaded_at: string | null
+        }
+        Insert: {
+          id?: string
+          image_url: string
+          order_id?: string | null
+          trip_id?: string | null
+          uploaded_at?: string | null
+        }
+        Update: {
+          id?: string
+          image_url?: string
+          order_id?: string | null
+          trip_id?: string | null
+          uploaded_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "delivery_images_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "delivery_images_trip_id_fkey"
+            columns: ["trip_id"]
+            isOneToOne: false
+            referencedRelation: "trips"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       drivers: {
         Row: {
           address: string | null
@@ -213,6 +252,7 @@ export type Database = {
           pickup_location: string
           price: number | null
           status: string
+          vehicle_id: string | null
         }
         Insert: {
           car_details?: Json | null
@@ -225,6 +265,7 @@ export type Database = {
           pickup_location: string
           price?: number | null
           status: string
+          vehicle_id?: string | null
         }
         Update: {
           car_details?: Json | null
@@ -237,6 +278,7 @@ export type Database = {
           pickup_location?: string
           price?: number | null
           status?: string
+          vehicle_id?: string | null
         }
         Relationships: [
           {
@@ -244,6 +286,13 @@ export type Database = {
             columns: ["customer_id"]
             isOneToOne: false
             referencedRelation: "customers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "orders_vehicle_id_fkey"
+            columns: ["vehicle_id"]
+            isOneToOne: false
+            referencedRelation: "vehicles"
             referencedColumns: ["id"]
           },
         ]
@@ -343,6 +392,66 @@ export type Database = {
         }
         Relationships: []
       }
+      trip_orders: {
+        Row: {
+          order_id: string
+          trip_id: string
+        }
+        Insert: {
+          order_id: string
+          trip_id: string
+        }
+        Update: {
+          order_id?: string
+          trip_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "trip_orders_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "trip_orders_trip_id_fkey"
+            columns: ["trip_id"]
+            isOneToOne: false
+            referencedRelation: "trips"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      trip_vehicles: {
+        Row: {
+          trip_id: string
+          vehicle_id: string
+        }
+        Insert: {
+          trip_id: string
+          vehicle_id: string
+        }
+        Update: {
+          trip_id?: string
+          vehicle_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "trip_vehicles_trip_id_fkey"
+            columns: ["trip_id"]
+            isOneToOne: false
+            referencedRelation: "trips"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "trip_vehicles_vehicle_id_fkey"
+            columns: ["vehicle_id"]
+            isOneToOne: false
+            referencedRelation: "vehicles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       trips: {
         Row: {
           distance_travelled: number | null
@@ -351,7 +460,6 @@ export type Database = {
           end_time: string | null
           fuel_used: number | null
           id: string
-          order_id: string | null
           start_location: string
           start_time: string
           status: string
@@ -364,7 +472,6 @@ export type Database = {
           end_time?: string | null
           fuel_used?: number | null
           id?: string
-          order_id?: string | null
           start_location: string
           start_time: string
           status: string
@@ -377,7 +484,6 @@ export type Database = {
           end_time?: string | null
           fuel_used?: number | null
           id?: string
-          order_id?: string | null
           start_location?: string
           start_time?: string
           status?: string
@@ -390,13 +496,6 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "drivers"
             referencedColumns: ["pkey"]
-          },
-          {
-            foreignKeyName: "fk_order"
-            columns: ["order_id"]
-            isOneToOne: false
-            referencedRelation: "orders"
-            referencedColumns: ["id"]
           },
           {
             foreignKeyName: "fk_truck"
@@ -513,6 +612,53 @@ export type Database = {
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      vehicles: {
+        Row: {
+          condition: string | null
+          created_at: string | null
+          id: string
+          make: string | null
+          model: string | null
+          notes: string | null
+          order_id: string | null
+          updated_at: string | null
+          vin: string | null
+          year: number | null
+        }
+        Insert: {
+          condition?: string | null
+          created_at?: string | null
+          id?: string
+          make?: string | null
+          model?: string | null
+          notes?: string | null
+          order_id?: string | null
+          updated_at?: string | null
+          vin?: string | null
+          year?: number | null
+        }
+        Update: {
+          condition?: string | null
+          created_at?: string | null
+          id?: string
+          make?: string | null
+          model?: string | null
+          notes?: string | null
+          order_id?: string | null
+          updated_at?: string | null
+          vin?: string | null
+          year?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "vehicles_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
             referencedColumns: ["id"]
           },
         ]

@@ -9,33 +9,6 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      businesses: {
-        Row: {
-          address: string
-          contact_person: string
-          email: string
-          id: string
-          name: string
-          phone: string
-        }
-        Insert: {
-          address: string
-          contact_person: string
-          email: string
-          id?: string
-          name: string
-          phone: string
-        }
-        Update: {
-          address?: string
-          contact_person?: string
-          email?: string
-          id?: string
-          name?: string
-          phone?: string
-        }
-        Relationships: []
-      }
       carriers: {
         Row: {
           Address: string | null
@@ -90,30 +63,6 @@ export type Database = {
           Status?: string | null
           Type?: string | null
           ZipCode?: string | null
-        }
-        Relationships: []
-      }
-      customers: {
-        Row: {
-          address: string
-          email: string
-          id: string
-          name: string
-          phone: string
-        }
-        Insert: {
-          address: string
-          email: string
-          id?: string
-          name: string
-          phone: string
-        }
-        Update: {
-          address?: string
-          email?: string
-          id?: string
-          name?: string
-          phone?: string
         }
         Relationships: []
       }
@@ -252,7 +201,7 @@ export type Database = {
           pickup_location: string
           price: number | null
           status: string
-          vehicle_id: string | null
+          truck_id: string | null
         }
         Insert: {
           car_details?: Json | null
@@ -265,7 +214,7 @@ export type Database = {
           pickup_location: string
           price?: number | null
           status: string
-          vehicle_id?: string | null
+          truck_id?: string | null
         }
         Update: {
           car_details?: Json | null
@@ -278,22 +227,22 @@ export type Database = {
           pickup_location?: string
           price?: number | null
           status?: string
-          vehicle_id?: string | null
+          truck_id?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: "fk_customer"
+            foreignKeyName: "orders_carrier_id_fkey"
             columns: ["customer_id"]
             isOneToOne: false
-            referencedRelation: "customers"
-            referencedColumns: ["id"]
+            referencedRelation: "carriers"
+            referencedColumns: ["pkey"]
           },
           {
-            foreignKeyName: "orders_vehicle_id_fkey"
-            columns: ["vehicle_id"]
+            foreignKeyName: "orders_truck_id_fkey"
+            columns: ["truck_id"]
             isOneToOne: false
-            referencedRelation: "vehicles"
-            referencedColumns: ["id"]
+            referencedRelation: "trucks"
+            referencedColumns: ["pkey"]
           },
         ]
       }

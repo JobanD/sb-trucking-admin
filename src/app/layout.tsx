@@ -6,7 +6,6 @@ import { cn } from "@/lib/utils";
 // providers
 import { ThemeProvider } from "@/styles/theme-provider";
 import { TanstackQueryClientProvider } from "@/utils/tanstack/ClientProvider";
-import { ReactQueryClientProvider } from "@/components/react-query-client-provider";
 
 // components
 import { Sidebar } from "@/components/Sidebar";
@@ -64,28 +63,4 @@ export default function RootLayout({ children }: RootLayoutProps) {
       </html>
     </TanstackQueryClientProvider>
   );
-}
-
-{
-  /* <ReactQueryClientProvider>
-<html lang="en">
-  <body
-    className={cn(
-      "min-h-screen bg-background font-sans antialiased",
-      fontSans.variable
-    )}
-  >
-    <ThemeProvider
-      attribute="class"
-      defaultTheme="light"
-      enableSystem
-      disableTransitionOnChange
-    >
-      <Sidebar />
-      <main className="ml-[300px] mt-3">{children}</main>
-    </ThemeProvider>
-  </body>
-</html>
-</ReactQueryClientProvider>
-); */
 }

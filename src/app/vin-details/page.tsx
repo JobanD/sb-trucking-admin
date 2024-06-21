@@ -34,6 +34,14 @@ const VinDecoderPage = () => {
     }
   };
 
+  const renderVehicleData = (data: any) => {
+    return data.map((item: any) => (
+      <div key={item.VariableId} className="mb-2">
+        <strong>{item.Variable}:</strong> {item.Value || "N/A"}
+      </div>
+    ));
+  };
+
   return (
     <div className="container mx-auto p-4">
       <Card>
@@ -64,9 +72,9 @@ const VinDecoderPage = () => {
               <h2 className="text-xl font-bold text-foreground">
                 Vehicle Data
               </h2>
-              <pre className="bg-card text-card-foreground p-2 rounded">
-                {JSON.stringify(vehicleData, null, 2)}
-              </pre>
+              <div className="bg-card text-card-foreground p-4 rounded">
+                {renderVehicleData(vehicleData)}
+              </div>
             </div>
           )}
         </CardContent>

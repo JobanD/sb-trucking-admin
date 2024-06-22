@@ -60,7 +60,7 @@ const TruckGrid: React.FC<TruckGridProps> = ({ rowData }) => {
         rowSelection="multiple"
         suppressRowClickSelection={true}
         pagination={true}
-        paginationPageSize={10}
+        paginationPageSize={20}
       />
     </div>
   );

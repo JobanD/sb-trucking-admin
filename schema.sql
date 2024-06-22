@@ -11,58 +11,58 @@ export type Database = {
     Tables: {
       carriers: {
         Row: {
-          Address: string | null
-          City: string | null
-          CompaniesName: string | null
-          Company: string | null
-          Country: string | null
-          CSA: string | null
-          CTPAT: string | null
-          Email: string | null
-          Name: string | null
-          Phone: string | null
-          PIP: string | null
+          address: string | null
+          city: string | null
+          companies_name: string | null
+          company: string | null
+          country: string | null
+          csa: string | null
+          ctpat: string | null
+          email: string | null
+          name: string | null
+          phone: string | null
+          pip: string | null
           pkey: string
-          State: string | null
-          Status: string | null
-          Type: string | null
-          ZipCode: string | null
+          state: string | null
+          status: string | null
+          type: string | null
+          zip_code: string | null
         }
         Insert: {
-          Address?: string | null
-          City?: string | null
-          CompaniesName?: string | null
-          Company?: string | null
-          Country?: string | null
-          CSA?: string | null
-          CTPAT?: string | null
-          Email?: string | null
-          Name?: string | null
-          Phone?: string | null
-          PIP?: string | null
+          address?: string | null
+          city?: string | null
+          companies_name?: string | null
+          company?: string | null
+          country?: string | null
+          csa?: string | null
+          ctpat?: string | null
+          email?: string | null
+          name?: string | null
+          phone?: string | null
+          pip?: string | null
           pkey?: string
-          State?: string | null
-          Status?: string | null
-          Type?: string | null
-          ZipCode?: string | null
+          state?: string | null
+          status?: string | null
+          type?: string | null
+          zip_code?: string | null
         }
         Update: {
-          Address?: string | null
-          City?: string | null
-          CompaniesName?: string | null
-          Company?: string | null
-          Country?: string | null
-          CSA?: string | null
-          CTPAT?: string | null
-          Email?: string | null
-          Name?: string | null
-          Phone?: string | null
-          PIP?: string | null
+          address?: string | null
+          city?: string | null
+          companies_name?: string | null
+          company?: string | null
+          country?: string | null
+          csa?: string | null
+          ctpat?: string | null
+          email?: string | null
+          name?: string | null
+          phone?: string | null
+          pip?: string | null
           pkey?: string
-          State?: string | null
-          Status?: string | null
-          Type?: string | null
-          ZipCode?: string | null
+          state?: string | null
+          status?: string | null
+          type?: string | null
+          zip_code?: string | null
         }
         Relationships: []
       }
@@ -108,84 +108,48 @@ export type Database = {
       drivers: {
         Row: {
           address: string | null
-          Address: string | null
           cellular: string | null
-          Cellular: string | null
           dob: string | null
-          DOB: string | null
-          emailid: string | null
-          EmailID: string | null
-          genderlucode: string | null
-          GenderLUCode: string | null
-          hireddate: string | null
-          HiredDate: string | null
-          licenseexpiry: string | null
-          LicenseExpiry: string | null
-          licenseno: string | null
-          LicenseNo: string | null
-          name: string
-          Name: string | null
+          email_id: string | null
+          gender_lu_code: string | null
+          hired_date: string | null
+          license_expiry: string | null
+          license_no: string | null
+          name: string | null
           phone: string | null
-          Phone: string | null
           pkey: string
-          status: string
-          Status: string | null
-          terminationdate: string | null
-          TerminationDate: string | null
+          status: string | null
+          termination_date: string | null
         }
         Insert: {
           address?: string | null
-          Address?: string | null
           cellular?: string | null
-          Cellular?: string | null
           dob?: string | null
-          DOB?: string | null
-          emailid?: string | null
-          EmailID?: string | null
-          genderlucode?: string | null
-          GenderLUCode?: string | null
-          hireddate?: string | null
-          HiredDate?: string | null
-          licenseexpiry?: string | null
-          LicenseExpiry?: string | null
-          licenseno?: string | null
-          LicenseNo?: string | null
-          name: string
-          Name?: string | null
+          email_id?: string | null
+          gender_lu_code?: string | null
+          hired_date?: string | null
+          license_expiry?: string | null
+          license_no?: string | null
+          name?: string | null
           phone?: string | null
-          Phone?: string | null
           pkey?: string
-          status: string
-          Status?: string | null
-          terminationdate?: string | null
-          TerminationDate?: string | null
+          status?: string | null
+          termination_date?: string | null
         }
         Update: {
           address?: string | null
-          Address?: string | null
           cellular?: string | null
-          Cellular?: string | null
           dob?: string | null
-          DOB?: string | null
-          emailid?: string | null
-          EmailID?: string | null
-          genderlucode?: string | null
-          GenderLUCode?: string | null
-          hireddate?: string | null
-          HiredDate?: string | null
-          licenseexpiry?: string | null
-          LicenseExpiry?: string | null
-          licenseno?: string | null
-          LicenseNo?: string | null
-          name?: string
-          Name?: string | null
+          email_id?: string | null
+          gender_lu_code?: string | null
+          hired_date?: string | null
+          license_expiry?: string | null
+          license_no?: string | null
+          name?: string | null
           phone?: string | null
-          Phone?: string | null
           pkey?: string
-          status?: string
-          Status?: string | null
-          terminationdate?: string | null
-          TerminationDate?: string | null
+          status?: string | null
+          termination_date?: string | null
         }
         Relationships: []
       }
@@ -298,46 +262,46 @@ export type Database = {
       }
       trailers: {
         Row: {
-          Company: string | null
-          Fleet: string | null
-          IsThirdParty: string | null
-          MMY: string | null
+          company: string | null
+          fleet: string | null
+          is_third_party: string | null
+          mmy: string | null
           pkey: string
-          PlateNo: string | null
-          RegistrationCountry: string | null
-          RegistrationState: string | null
-          Status: string | null
-          TrailerNo: string | null
-          TrailerType: string | null
-          VIN: string | null
+          plate_no: string | null
+          registration_country: string | null
+          registration_state: string | null
+          status: string | null
+          trailer_no: string | null
+          trailer_type: string | null
+          vin: string | null
         }
         Insert: {
-          Company?: string | null
-          Fleet?: string | null
-          IsThirdParty?: string | null
-          MMY?: string | null
+          company?: string | null
+          fleet?: string | null
+          is_third_party?: string | null
+          mmy?: string | null
           pkey?: string
-          PlateNo?: string | null
-          RegistrationCountry?: string | null
-          RegistrationState?: string | null
-          Status?: string | null
-          TrailerNo?: string | null
-          TrailerType?: string | null
-          VIN?: string | null
+          plate_no?: string | null
+          registration_country?: string | null
+          registration_state?: string | null
+          status?: string | null
+          trailer_no?: string | null
+          trailer_type?: string | null
+          vin?: string | null
         }
         Update: {
-          Company?: string | null
-          Fleet?: string | null
-          IsThirdParty?: string | null
-          MMY?: string | null
+          company?: string | null
+          fleet?: string | null
+          is_third_party?: string | null
+          mmy?: string | null
           pkey?: string
-          PlateNo?: string | null
-          RegistrationCountry?: string | null
-          RegistrationState?: string | null
-          Status?: string | null
-          TrailerNo?: string | null
-          TrailerType?: string | null
-          VIN?: string | null
+          plate_no?: string | null
+          registration_country?: string | null
+          registration_state?: string | null
+          status?: string | null
+          trailer_no?: string | null
+          trailer_type?: string | null
+          vin?: string | null
         }
         Relationships: []
       }
@@ -458,84 +422,48 @@ export type Database = {
       trucks: {
         Row: {
           company: string | null
-          Company: string | null
-          driversname: string | null
-          DriversName: string | null
+          drivers_name: string | null
           fleet: string | null
-          Fleet: string | null
-          fueltype: string | null
-          FuelType: string | null
+          fuel_type: string | null
           ifta: string | null
-          IFTA: string | null
           mmy: string | null
-          MMY: string | null
           pkey: string
-          plateno: string
-          PlateNo: string | null
-          status: string
-          Status: string | null
-          truckno: string
-          TruckNo: string | null
-          truckowner: string | null
-          TruckOwner: string | null
-          trucktype: string
-          TruckType: string | null
-          vinnumber: string
-          VinNumber: string | null
+          plate_no: string | null
+          status: string | null
+          truck_no: string | null
+          truck_owner: string | null
+          truck_type: string | null
+          vin_number: string | null
         }
         Insert: {
           company?: string | null
-          Company?: string | null
-          driversname?: string | null
-          DriversName?: string | null
+          drivers_name?: string | null
           fleet?: string | null
-          Fleet?: string | null
-          fueltype?: string | null
-          FuelType?: string | null
+          fuel_type?: string | null
           ifta?: string | null
-          IFTA?: string | null
           mmy?: string | null
-          MMY?: string | null
           pkey?: string
-          plateno: string
-          PlateNo?: string | null
-          status: string
-          Status?: string | null
-          truckno: string
-          TruckNo?: string | null
-          truckowner?: string | null
-          TruckOwner?: string | null
-          trucktype: string
-          TruckType?: string | null
-          vinnumber: string
-          VinNumber?: string | null
+          plate_no?: string | null
+          status?: string | null
+          truck_no?: string | null
+          truck_owner?: string | null
+          truck_type?: string | null
+          vin_number?: string | null
         }
         Update: {
           company?: string | null
-          Company?: string | null
-          driversname?: string | null
-          DriversName?: string | null
+          drivers_name?: string | null
           fleet?: string | null
-          Fleet?: string | null
-          fueltype?: string | null
-          FuelType?: string | null
+          fuel_type?: string | null
           ifta?: string | null
-          IFTA?: string | null
           mmy?: string | null
-          MMY?: string | null
           pkey?: string
-          plateno?: string
-          PlateNo?: string | null
-          status?: string
-          Status?: string | null
-          truckno?: string
-          TruckNo?: string | null
-          truckowner?: string | null
-          TruckOwner?: string | null
-          trucktype?: string
-          TruckType?: string | null
-          vinnumber?: string
-          VinNumber?: string | null
+          plate_no?: string | null
+          status?: string | null
+          truck_no?: string | null
+          truck_owner?: string | null
+          truck_type?: string | null
+          vin_number?: string | null
         }
         Relationships: []
       }

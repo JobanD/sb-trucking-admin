@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Inter as FontSans } from "next/font/google";
-import "@/styles/globals.css";
+import "./globals.css";
 import { cn } from "@/lib/utils";
 
 // providers
@@ -8,7 +8,7 @@ import { ThemeProvider } from "@/styles/theme-provider";
 import { TanstackQueryClientProvider } from "@/utils/tanstack/ClientProvider";
 
 // components
-import { Sidebar } from "@/components/Sidebar";
+import { Sidebar } from "@/components/sidebar/Sidebar";
 // import { SiteHeader } from '@/components/SiteHeader';
 import { SiteFooter } from "@/components/SiteFooter";
 import { CookieButton } from "@/components/CookieButton";

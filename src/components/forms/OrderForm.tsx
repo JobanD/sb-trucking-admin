@@ -2,13 +2,7 @@
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import {
-  useForm,
-  FormProvider,
-  ControllerRenderProps,
-  ControllerFieldState,
-  UseFormStateReturn,
-} from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import useSupabaseBrowser from "@/utils/supabase-browser";
 import {
   Form,
@@ -17,12 +11,17 @@ import {
   FormLabel,
   FormControl,
   FormMessage,
-} from "./ui/form";
-import { Input } from "./ui/input";
-import { Textarea } from "./ui/textarea";
-import { Button } from "./ui/button";
-import { Calendar } from "./ui/calendar";
-import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+  FormDescription,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 
@@ -47,7 +46,7 @@ interface OrderFormProps {
 
 const OrderForm: React.FC<OrderFormProps> = ({ onClose }) => {
   const supabase = useSupabaseBrowser();
-  const methods = useForm<OrderFormData>({
+  const form = useForm<OrderFormData>({
     resolver: zodResolver(orderSchema),
     defaultValues: {
       truck_id: "",
@@ -69,239 +68,199 @@ const OrderForm: React.FC<OrderFormProps> = ({ onClose }) => {
       console.error("Error creating order:", error);
     } else {
       onClose();
-      methods.reset();
+      form.reset();
     }
   };
 
   return (
-    <FormProvider {...methods}>
-      <Form>
-        <form onSubmit={methods.handleSubmit(onSubmit)} className="space-y-4">
-          <FormField
-            control={methods.control}
-            name="truck_id"
-            render={({
-              field,
-            }: {
-              field: ControllerRenderProps<OrderFormData, "truck_id">;
-            }) => (
-              <FormItem>
-                <FormLabel>Truck ID</FormLabel>
-                <FormControl>
-                  <Input placeholder="Truck ID" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={methods.control}
-            name="customer_id"
-            render={({
-              field,
-            }: {
-              field: ControllerRenderProps<OrderFormData, "customer_id">;
-            }) => (
-              <FormItem>
-                <FormLabel>Customer ID</FormLabel>
-                <FormControl>
-                  <Input placeholder="Customer ID" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={methods.control}
-            name="delivery_date"
-            render={({
-              field,
-            }: {
-              field: ControllerRenderProps<OrderFormData, "delivery_date">;
-            }) => (
-              <FormItem>
-                <FormLabel>Delivery Date</FormLabel>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <FormControl>
-                      <Button
-                        variant={"outline"}
-                        className={`w-full text-left font-normal ${
-                          !field.value && "text-muted-foreground"
-                        }`}
-                      >
-                        {field.value ? (
-                          format(field.value, "PPP")
-                        ) : (
-                          <span>Pick a date</span>
-                        )}
-                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                      </Button>
-                    </FormControl>
-                  </PopoverTrigger>
-                  <PopoverContent align="start" className="w-auto p-0">
-                    <Calendar
-                      mode="single"
-                      selected={field.value}
-                      onSelect={field.onChange}
-                      initialFocus
-                    />
-                  </PopoverContent>
-                </Popover>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={methods.control}
-            name="pickup_date"
-            render={({
-              field,
-            }: {
-              field: ControllerRenderProps<OrderFormData, "pickup_date">;
-            }) => (
-              <FormItem>
-                <FormLabel>Pickup Date</FormLabel>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <FormControl>
-                      <Button
-                        variant={"outline"}
-                        className={`w-full text-left font-normal ${
-                          !field.value && "text-muted-foreground"
-                        }`}
-                      >
-                        {field.value ? (
-                          format(field.value, "PPP")
-                        ) : (
-                          <span>Pick a date</span>
-                        )}
-                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                      </Button>
-                    </FormControl>
-                  </PopoverTrigger>
-                  <PopoverContent align="start" className="w-auto p-0">
-                    <Calendar
-                      mode="single"
-                      selected={field.value}
-                      onSelect={field.onChange}
-                      initialFocus
-                    />
-                  </PopoverContent>
-                </Popover>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={methods.control}
-            name="pickup_location"
-            render={({
-              field,
-            }: {
-              field: ControllerRenderProps<OrderFormData, "pickup_location">;
-            }) => (
-              <FormItem>
-                <FormLabel>Pickup Location</FormLabel>
-                <FormControl>
-                  <Input placeholder="Pickup Location" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={methods.control}
-            name="delivery_location"
-            render={({
-              field,
-            }: {
-              field: ControllerRenderProps<OrderFormData, "delivery_location">;
-            }) => (
-              <FormItem>
-                <FormLabel>Delivery Location</FormLabel>
-                <FormControl>
-                  <Input placeholder="Delivery Location" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={methods.control}
-            name="car_details"
-            render={({
-              field,
-            }: {
-              field: ControllerRenderProps<OrderFormData, "car_details">;
-            }) => (
-              <FormItem>
-                <FormLabel>Car Details</FormLabel>
-                <FormControl>
-                  <Textarea placeholder="Car Details" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={methods.control}
-            name="price"
-            render={({
-              field,
-            }: {
-              field: ControllerRenderProps<OrderFormData, "price">;
-            }) => (
-              <FormItem>
-                <FormLabel>Price</FormLabel>
-                <FormControl>
-                  <Input type="number" placeholder="Price" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={methods.control}
-            name="status"
-            render={({
-              field,
-            }: {
-              field: ControllerRenderProps<OrderFormData, "status">;
-            }) => (
-              <FormItem>
-                <FormLabel>Status</FormLabel>
-                <FormControl>
-                  <Input placeholder="Status" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={methods.control}
-            name="notes"
-            render={({
-              field,
-            }: {
-              field: ControllerRenderProps<OrderFormData, "notes">;
-            }) => (
-              <FormItem>
-                <FormLabel>Notes</FormLabel>
-                <FormControl>
-                  <Textarea placeholder="Notes" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <FormField
+          control={form.control}
+          name="truck_id"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Truck ID</FormLabel>
+              <FormControl>
+                <Input placeholder="Truck ID" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="customer_id"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Customer ID</FormLabel>
+              <FormControl>
+                <Input placeholder="Customer ID" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="delivery_date"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Delivery Date</FormLabel>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <FormControl>
+                    <Button
+                      variant={"outline"}
+                      className={`w-full text-left font-normal ${
+                        !field.value && "text-muted-foreground"
+                      }`}
+                    >
+                      {field.value ? (
+                        format(field.value, "PPP")
+                      ) : (
+                        <span>Pick a date</span>
+                      )}
+                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                    </Button>
+                  </FormControl>
+                </PopoverTrigger>
+                <PopoverContent align="start" className="w-auto p-0">
+                  <Calendar
+                    mode="single"
+                    selected={field.value}
+                    onSelect={field.onChange}
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="pickup_date"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Pickup Date</FormLabel>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <FormControl>
+                    <Button
+                      variant={"outline"}
+                      className={`w-full text-left font-normal ${
+                        !field.value && "text-muted-foreground"
+                      }`}
+                    >
+                      {field.value ? (
+                        format(field.value, "PPP")
+                      ) : (
+                        <span>Pick a date</span>
+                      )}
+                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                    </Button>
+                  </FormControl>
+                </PopoverTrigger>
+                <PopoverContent align="start" className="w-auto p-0">
+                  <Calendar
+                    mode="single"
+                    selected={field.value}
+                    onSelect={field.onChange}
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="pickup_location"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Pickup Location</FormLabel>
+              <FormControl>
+                <Input placeholder="Pickup Location" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="delivery_location"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Delivery Location</FormLabel>
+              <FormControl>
+                <Input placeholder="Delivery Location" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="car_details"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Car Details</FormLabel>
+              <FormControl>
+                <Textarea placeholder="Car Details" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="price"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Price</FormLabel>
+              <FormControl>
+                <Input type="number" placeholder="Price" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="status"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Status</FormLabel>
+              <FormControl>
+                <Input placeholder="Status" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="notes"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Notes</FormLabel>
+              <FormControl>
+                <Textarea placeholder="Notes" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <div className="flex justify-between">
           <Button type="submit">Create Order</Button>
           <Button type="button" onClick={onClose}>
             Cancel
           </Button>
-        </form>
-      </Form>
-    </FormProvider>
+        </div>
+      </form>
+    </Form>
   );
 };
 

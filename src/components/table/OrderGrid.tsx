@@ -2,27 +2,15 @@ import React, { useMemo, useState, useEffect } from "react";
 import { AgGridReact } from "ag-grid-react";
 import { useTheme } from "next-themes";
 import { ColDef } from "ag-grid-community";
+import { Database } from "@/lib/supabase";
 
-export type Truck = {
-  truck_no: string | null;
-  plate_no: string | null;
-  vin_number: string | null;
-  truck_owner: string | null;
-  fleet: string | null;
-  truck_type: string | null;
-  ifta: string | null;
-  fuel_type: string | null;
-  mmy: string | null;
-  drivers_name: string | null;
-  status: string | null;
-  company: string | null;
-};
+type Order = Database["public"]["Tables"]["orders"]["Row"];
 
-interface TruckGridProps {
-  rowData: Truck[];
+interface OrderGridProps {
+  rowData: Order[];
 }
 
-const TruckGrid: React.FC<TruckGridProps> = ({ rowData }) => {
+const OrderGrid: React.FC<OrderGridProps> = ({ rowData }) => {
   const { theme } = useTheme();
   const [isCssLoaded, setIsCssLoaded] = useState(false);
 
@@ -43,18 +31,17 @@ const TruckGrid: React.FC<TruckGridProps> = ({ rowData }) => {
 
   const columnDefs: ColDef[] = useMemo(
     () => [
-      { headerName: "Truck No.", field: "truck_no" },
-      { headerName: "Plate No.", field: "plate_no" },
-      { headerName: "Vin Number", field: "vin_number" },
-      { headerName: "Truck Owner", field: "truck_owner" },
-      { headerName: "Fleet", field: "fleet" },
-      { headerName: "Truck Type", field: "truck_type" },
-      { headerName: "IFTA", field: "ifta" },
-      { headerName: "Fuel Type", field: "fuel_type" },
-      { headerName: "MMY", field: "mmy" },
-      { headerName: "Driver's Name", field: "drivers_name" },
+      { headerName: "Truck ID", field: "truck_id" },
+      { headerName: "Customer ID", field: "customer_id" },
+      { headerName: "Delivery Date", field: "delivery_date" },
+      { headerName: "Car Details", field: "car_details" },
+      { headerName: "Price", field: "price" },
+      { headerName: "Order ID", field: "id" },
+      { headerName: "Pickup Date", field: "pickup_date" },
+      { headerName: "Pickup Location", field: "pickup_location" },
+      { headerName: "Delivery Location", field: "delivery_location" },
       { headerName: "Status", field: "status" },
-      { headerName: "Company", field: "company" },
+      { headerName: "Notes", field: "notes" },
     ],
     []
   );
@@ -94,4 +81,4 @@ const TruckGrid: React.FC<TruckGridProps> = ({ rowData }) => {
   );
 };
 
-export default TruckGrid;
+export default OrderGrid;

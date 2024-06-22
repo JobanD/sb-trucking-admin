@@ -7,15 +7,15 @@ import {
   SheetContent,
   SheetHeader,
   SheetTrigger,
-} from "./ui/sheet";
-import { Button } from "./ui/button";
+} from "@/components/ui/sheet";
+import { Button } from "@/components/ui/button";
 import { LogOut, Menu, MoreHorizontal, Settings, X } from "lucide-react";
 import Link from "next/link";
 import { SidebarButtonSheet as SidebarButton } from "./SidebarButton";
 import { usePathname } from "next/navigation";
-import { Separator } from "./ui/separator";
-import { Drawer, DrawerContent, DrawerTrigger } from "./ui/drawer";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { Separator } from "@/components/ui/separator";
+import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 interface SidebarMobileProps {
   sidebarItems: SidebarItems;

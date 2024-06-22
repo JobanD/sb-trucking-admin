@@ -4,10 +4,14 @@ import { useEffect, useState } from "react";
 import { SidebarButton } from "./SidebarButton";
 import { SidebarItems } from "@/types";
 import Link from "next/link";
-import { Separator } from "./ui/separator";
-import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
-import { Button } from "./ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { Separator } from "@/components/ui/separator";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { LogOut, MoreHorizontal, Settings } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { ThemeToggle } from "./ThemeToggle";

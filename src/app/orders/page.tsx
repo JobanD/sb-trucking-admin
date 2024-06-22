@@ -1,25 +1,29 @@
-"use client";
-import { useState } from "react";
-import Modal from "@/components/Modal";
-import OrderForm from "@/components/OrderForm";
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from "@tanstack/react-query";
+import { prefetchQuery } from "@supabase-cache-helpers/postgrest-react-query";
+import useSupabaseServer from "@/utils/supabase-server";
+import { getAllOrders } from "@/queries/orders/get-all-orders";
+import OrderList from "@/components/OrderList";
+import OrderFormModal from "@/components/OrderFormModal";
+import { cookies } from "next/headers";
 
-const OrdersPage: React.FC = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+export default async function OrdersPage() {
+  const queryClient = new QueryClient();
+  const cookieStore = cookies();
+  const supabase = useSupabaseServer(cookieStore);
 
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
+  await prefetchQuery(queryClient, getAllOrders(supabase));
 
   return (
-    <div>
-      <h1>Orders</h1>
-      <button onClick={openModal} className="btn btn-primary">
-        Add Order
-      </button>
-      <Modal isOpen={isModalOpen} onClose={closeModal}>
-        <OrderForm onClose={closeModal} />
-      </Modal>
-    </div>
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <div>
+        <h1>Orders</h1>
+        <OrderFormModal />
+        <OrderList />
+      </div>
+    </HydrationBoundary>
   );
-};
-
-export default OrdersPage;
+}

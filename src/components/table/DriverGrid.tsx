@@ -3,26 +3,26 @@ import { AgGridReact } from "ag-grid-react";
 import { useTheme } from "next-themes";
 import { ColDef } from "ag-grid-community";
 
-export type Truck = {
-  truck_no: string | null;
-  plate_no: string | null;
-  vin_number: string | null;
-  truck_owner: string | null;
-  fleet: string | null;
-  truck_type: string | null;
-  ifta: string | null;
-  fuel_type: string | null;
-  mmy: string | null;
-  drivers_name: string | null;
+export type Driver = {
+  name: string | null;
+  email_id: string | null;
+  cellular: string | null;
   status: string | null;
-  company: string | null;
+  dob: string | null;
+  license_no: string | null;
+  license_expiry: string | null;
+  address: string | null;
+  hired_date: string | null;
+  termination_date: string | null;
+  gender_lu_code: string | null;
+  phone: string | null;
 };
 
-interface TruckGridProps {
-  rowData: Truck[];
+interface DriverGridProps {
+  rowData: Driver[];
 }
 
-const TruckGrid: React.FC<TruckGridProps> = ({ rowData }) => {
+const DriverGrid: React.FC<DriverGridProps> = ({ rowData }) => {
   const { theme } = useTheme();
   const [isCssLoaded, setIsCssLoaded] = useState(false);
 
@@ -43,18 +43,18 @@ const TruckGrid: React.FC<TruckGridProps> = ({ rowData }) => {
 
   const columnDefs: ColDef[] = useMemo(
     () => [
-      { headerName: "Truck No.", field: "truck_no" },
-      { headerName: "Plate No.", field: "plate_no" },
-      { headerName: "Vin Number", field: "vin_number" },
-      { headerName: "Truck Owner", field: "truck_owner" },
-      { headerName: "Fleet", field: "fleet" },
-      { headerName: "Truck Type", field: "truck_type" },
-      { headerName: "IFTA", field: "ifta" },
-      { headerName: "Fuel Type", field: "fuel_type" },
-      { headerName: "MMY", field: "mmy" },
-      { headerName: "Driver's Name", field: "drivers_name" },
+      { headerName: "Name", field: "name" },
+      { headerName: "Email", field: "email_id" },
+      { headerName: "Cell #", field: "cellular" },
       { headerName: "Status", field: "status" },
-      { headerName: "Company", field: "company" },
+      { headerName: "DOB", field: "dob" },
+      { headerName: "License No.", field: "license_no" },
+      { headerName: "License Expiry", field: "license_expiry" },
+      { headerName: "Address", field: "address" },
+      { headerName: "Hired Date", field: "hired_date" },
+      { headerName: "Termination Date", field: "termination_date" },
+      { headerName: "Gender LU Code", field: "gender_lu_code" },
+      { headerName: "Phone", field: "phone" },
     ],
     []
   );
@@ -94,4 +94,4 @@ const TruckGrid: React.FC<TruckGridProps> = ({ rowData }) => {
   );
 };
 
-export default TruckGrid;
+export default DriverGrid;

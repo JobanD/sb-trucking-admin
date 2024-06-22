@@ -1,25 +1,24 @@
-import React from "react";
-import { createClient } from "@/utils/supabase/server";
-import { columns, Drivers } from "../../utils/columns/driverColumns";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { DataTable } from "../../components/table/data-table";
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from "@tanstack/react-query";
+import { prefetchQuery } from "@supabase-cache-helpers/postgrest-react-query";
+import useSupabaseServer from "@/utils/supabase-server";
+import { getAllDrivers } from "@/queries/drivers/get-all-drivers";
+import DriverList from "@/components/DriverList";
+import { cookies } from "next/headers";
 
-const getDriverData = async (): Promise<Drivers[]> => {
-  const supabase = createClient();
-  const { data: trucks, error } = await supabase.from("drivers").select("*");
+export default async function TruckPage() {
+  const queryClient = new QueryClient();
+  const cookieStore = cookies();
+  const supabase = useSupabaseServer(cookieStore);
 
-  return trucks || [];
-};
-
-const DriverPage = async () => {
-  const data = await getDriverData();
+  await prefetchQuery(queryClient, getAllDrivers(supabase));
 
   return (
-    <div>
-      <DataTable columns={columns} data={data} />
-    </div>
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <DriverList />
+    </HydrationBoundary>
   );
-};
-
-export default DriverPage;
+}

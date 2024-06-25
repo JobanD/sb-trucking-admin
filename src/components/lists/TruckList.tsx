@@ -3,7 +3,7 @@
 import useSupabaseBrowser from "@/utils/supabase-browser";
 import { useQuery } from "@supabase-cache-helpers/postgrest-react-query";
 import { getAllTrucks } from "@/queries/trucks/get-all-trucks";
-import TruckGrid from "./table/TruckGrid";
+import TruckGrid from "@/components/table/TruckGrid";
 
 export default function TruckList() {
   const supabase = useSupabaseBrowser();

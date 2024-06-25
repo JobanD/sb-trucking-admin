@@ -3,7 +3,7 @@
 import useSupabaseBrowser from "@/utils/supabase-browser";
 import { useQuery } from "@supabase-cache-helpers/postgrest-react-query";
 import { getAllOrders } from "@/queries/orders/get-all-orders";
-import OrderGrid from "./table/OrderGrid";
+import OrderGrid from "@/components/table/OrderGrid";
 
 export default function OrderList() {
   const supabase = useSupabaseBrowser();

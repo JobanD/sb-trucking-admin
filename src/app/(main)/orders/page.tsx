@@ -6,7 +6,7 @@ import {
 import { prefetchQuery } from "@supabase-cache-helpers/postgrest-react-query";
 import useSupabaseServer from "@/utils/supabase-server";
 import { getAllOrders } from "@/queries/orders/get-all-orders";
-import OrderList from "@/components/OrderList";
+import OrderList from "@/components/lists/OrderList";
 import OrderFormModal from "@/components/OrderFormModal";
 import { cookies } from "next/headers";
 

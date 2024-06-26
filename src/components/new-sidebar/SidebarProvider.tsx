@@ -7,35 +7,33 @@ import {
   useContext,
   useMemo,
   useState,
+  ReactNode,
 } from "react";
 
 type SidebarContextType = {
   showSidebarState: [boolean, Dispatch<SetStateAction<boolean>>];
   showSidebarMdState: [boolean, Dispatch<SetStateAction<boolean>>];
+  narrowSidebarState: [boolean, Dispatch<SetStateAction<boolean>>];
 };
 
 export const SidebarContext = createContext<SidebarContextType>({
   showSidebarState: [false, () => {}],
   showSidebarMdState: [false, () => {}],
+  narrowSidebarState: [false, () => {}],
 });
 
-export default function SidebarProvider({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  // Show status for xs screen
+export default function SidebarProvider({ children }: { children: ReactNode }) {
   const [isShowSidebar, setIsShowSidebar] = useState(false);
-
-  // Show status for md screen and above
   const [isShowSidebarMd, setIsShowSidebarMd] = useState(true);
+  const [isNarrow, setIsNarrow] = useState(false);
 
-  const value: SidebarContextType = useMemo(
+  const value = useMemo(
     () => ({
       showSidebarState: [isShowSidebar, setIsShowSidebar],
       showSidebarMdState: [isShowSidebarMd, setIsShowSidebarMd],
+      narrowSidebarState: [isNarrow, setIsNarrow],
     }),
-    [isShowSidebar, isShowSidebarMd]
+    [isShowSidebar, isShowSidebarMd, isNarrow]
   );
 
   return (
@@ -44,10 +42,9 @@ export default function SidebarProvider({
 }
 
 export const useSidebar = () => {
-  const sidebar = useContext(SidebarContext);
-  if (sidebar === null) {
-    throw new Error("useSidebar hook must be used within SidebarProvider");
+  const context = useContext(SidebarContext);
+  if (!context) {
+    throw new Error("useSidebar must be used within a SidebarProvider");
   }
-
-  return sidebar;
+  return context;
 };

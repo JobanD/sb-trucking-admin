@@ -12,30 +12,17 @@ export default function HeaderSidebarToggler() {
 
   const toggleSidebar = () => {
     setIsShowSidebar(!isShowSidebar);
-  };
-
-  const toggleSidebarMd = () => {
     setIsShowSidebarMd(!isShowSidebarMd);
   };
 
   return (
-    <>
-      <Button
-        variant="link"
-        className="d-md-none px-0 me-3 rounded-0 shadow-none"
-        type="button"
-        onClick={toggleSidebar}
-      >
-        <Menu size={24} />
-      </Button>
-      <Button
-        variant="link"
-        className="d-none d-md-inline-block px-0 me-3 rounded-0 shadow-none"
-        type="button"
-        onClick={toggleSidebarMd}
-      >
-        <Menu size={24} />
-      </Button>
-    </>
+    <Button
+      variant="link"
+      className="px-0 me-3 rounded-0 shadow-none"
+      type="button"
+      onClick={toggleSidebar}
+    >
+      <Menu size={24} />
+    </Button>
   );
 }

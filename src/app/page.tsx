@@ -24,15 +24,22 @@ export default async function Home() {
   }
 
   return (
-    <main className="...">
-      <div>
-        <h1 className="text-3xl ">Home Page</h1>
-        <div>
+    <main className="min-h-screen flex items-center justify-center">
+      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md text-center">
+        <h1 className="text-3xl mb-4">Home Page</h1>
+        <div className="mb-4">
           Welcome, <strong>{user?.email ?? "Guest"}</strong>!
         </div>
-
-        <div className="flex gap-2 text-sm mt-1">
+        <div className="flex gap-2 text-sm mt-1 justify-center">
           {user ? <SignOut /> : <LinkButton href="/login">Login</LinkButton>}
+        </div>
+        <div className="mt-4">
+          <Link
+            href="/trucks"
+            className="inline-block px-6 py-3 text-lg font-semibold text-white bg-blue-600 rounded-lg shadow hover:bg-blue-700 transition duration-200 ease-in-out"
+          >
+            Go to App
+          </Link>
         </div>
       </div>
     </main>
@@ -47,11 +54,10 @@ const LinkButton = ({
   children: React.ReactNode;
 }) => {
   return (
-    <Link
-      href={href}
-      className="text-white/30 hover:text-white transition duration-100 ease-in-out"
-    >
-      {children}
+    <Link href={href}>
+      <a className="text-white/30 hover:text-white transition duration-100 ease-in-out">
+        {children}
+      </a>
     </Link>
   );
 };

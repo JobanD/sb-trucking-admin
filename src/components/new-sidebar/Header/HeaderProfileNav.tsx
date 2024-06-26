@@ -65,8 +65,6 @@ export default async function HeaderProfileNav() {
     }
   }
 
-  console.log("USER NAV: ", user);
-
   return (
     <nav className="relative">
       <DropdownMenu>

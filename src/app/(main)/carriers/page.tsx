@@ -1,25 +1,24 @@
-import React from "react";
-import { createClient } from "@/utils/supabase/server";
-import { columns, Carriers } from "../../utils/columns/carrierColumns";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { DataTable } from "../../components/table/data-table";
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from "@tanstack/react-query";
+import { prefetchQuery } from "@supabase-cache-helpers/postgrest-react-query";
+import useSupabaseServer from "@/utils/supabase-server";
+import { getAllCarriers } from "@/queries/carriers/get-all-carriers";
+import CarrierList from "@/components/lists/CarrierList";
+import { cookies } from "next/headers";
 
-const getCarrierData = async (): Promise<Carriers[]> => {
-  const supabase = createClient();
-  const { data: trucks, error } = await supabase.from("carriers").select("*");
+export default async function CarrierPage() {
+  const queryClient = new QueryClient();
+  const cookieStore = cookies();
+  const supabase = useSupabaseServer(cookieStore);
 
-  return trucks || [];
-};
-
-const CarriersPage = async () => {
-  const data = await getCarrierData();
+  await prefetchQuery(queryClient, getAllCarriers(supabase));
 
   return (
-    <div>
-      <DataTable columns={columns} data={data} />
-    </div>
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <CarrierList />
+    </HydrationBoundary>
   );
-};
-
-export default CarriersPage;
+}

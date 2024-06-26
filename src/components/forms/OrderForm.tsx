@@ -63,7 +63,14 @@ const OrderForm: React.FC<OrderFormProps> = ({ onClose }) => {
   });
 
   const onSubmit = async (data: OrderFormData) => {
-    const { error } = await supabase.from("orders").insert([data]);
+    // Convert dates to strings in ISO 8601 format
+    const formattedData = {
+      ...data,
+      delivery_date: data.delivery_date.toISOString(),
+      pickup_date: data.pickup_date.toISOString(),
+    };
+
+    const { error } = await supabase.from("orders").insert([formattedData]);
     if (error) {
       console.error("Error creating order:", error);
     } else {

@@ -68,22 +68,28 @@ export type Database = {
       }
       delivery_images: {
         Row: {
+          category: string
           id: string
           image_url: string
+          notes: string | null
           order_id: string | null
           trip_id: string | null
           uploaded_at: string | null
         }
         Insert: {
+          category: string
           id?: string
           image_url: string
+          notes?: string | null
           order_id?: string | null
           trip_id?: string | null
           uploaded_at?: string | null
         }
         Update: {
+          category?: string
           id?: string
           image_url?: string
+          notes?: string | null
           order_id?: string | null
           trip_id?: string | null
           uploaded_at?: string | null
@@ -155,43 +161,43 @@ export type Database = {
       }
       orders: {
         Row: {
-          car_details: Json | null
           customer_id: string | null
           delivery_date: string | null
           delivery_location: string
           id: string
           notes: string | null
+          photos: Json | null
           pickup_date: string
           pickup_location: string
           price: number | null
-          status: string
-          truck_id: string | null
+          status: string | null
+          vehicle_id: string | null
         }
         Insert: {
-          car_details?: Json | null
           customer_id?: string | null
           delivery_date?: string | null
           delivery_location: string
           id?: string
           notes?: string | null
+          photos?: Json | null
           pickup_date: string
           pickup_location: string
           price?: number | null
-          status: string
-          truck_id?: string | null
+          status?: string | null
+          vehicle_id?: string | null
         }
         Update: {
-          car_details?: Json | null
           customer_id?: string | null
           delivery_date?: string | null
           delivery_location?: string
           id?: string
           notes?: string | null
+          photos?: Json | null
           pickup_date?: string
           pickup_location?: string
           price?: number | null
-          status?: string
-          truck_id?: string | null
+          status?: string | null
+          vehicle_id?: string | null
         }
         Relationships: [
           {
@@ -202,11 +208,11 @@ export type Database = {
             referencedColumns: ["pkey"]
           },
           {
-            foreignKeyName: "orders_truck_id_fkey"
-            columns: ["truck_id"]
+            foreignKeyName: "orders_vehicle_id_fkey"
+            columns: ["vehicle_id"]
             isOneToOne: false
-            referencedRelation: "trucks"
-            referencedColumns: ["pkey"]
+            referencedRelation: "vehicles"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -369,49 +375,49 @@ export type Database = {
         Row: {
           distance_travelled: number | null
           driver_id: string | null
-          end_location: string
+          end_location: string | null
           end_time: string | null
           fuel_used: number | null
           id: string
-          start_location: string
-          start_time: string
-          status: string
+          start_location: string | null
+          start_time: string | null
+          status: string | null
           truck_id: string | null
         }
         Insert: {
           distance_travelled?: number | null
           driver_id?: string | null
-          end_location: string
+          end_location?: string | null
           end_time?: string | null
           fuel_used?: number | null
           id?: string
-          start_location: string
-          start_time: string
-          status: string
+          start_location?: string | null
+          start_time?: string | null
+          status?: string | null
           truck_id?: string | null
         }
         Update: {
           distance_travelled?: number | null
           driver_id?: string | null
-          end_location?: string
+          end_location?: string | null
           end_time?: string | null
           fuel_used?: number | null
           id?: string
-          start_location?: string
-          start_time?: string
-          status?: string
+          start_location?: string | null
+          start_time?: string | null
+          status?: string | null
           truck_id?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: "fk_driver"
+            foreignKeyName: "trips_driver_id_fkey"
             columns: ["driver_id"]
             isOneToOne: false
             referencedRelation: "drivers"
             referencedColumns: ["pkey"]
           },
           {
-            foreignKeyName: "fk_truck"
+            foreignKeyName: "trips_truck_id_fkey"
             columns: ["truck_id"]
             isOneToOne: false
             referencedRelation: "trucks"

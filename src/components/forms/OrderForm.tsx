@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useForm, Controller } from "react-hook-form";
@@ -11,7 +11,6 @@ import {
   FormLabel,
   FormControl,
   FormMessage,
-  FormDescription,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -26,16 +25,16 @@ import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 
 const orderSchema = z.object({
-  truck_id: z.string().uuid().optional(),
-  customer_id: z.string().uuid().min(1, "Customer ID is required"),
+  carrier_id: z.string().uuid().min(1, "Carrier ID is required"),
   delivery_date: z.date({ required_error: "Delivery Date is required" }),
   pickup_date: z.date({ required_error: "Pickup Date is required" }),
   pickup_location: z.string().min(1, "Pickup Location is required"),
   delivery_location: z.string().min(1, "Delivery Location is required"),
-  car_details: z.any().optional(),
+  vehicle_id: z.string().uuid().min(1, "Vehicle ID is required"),
   price: z.coerce.number().optional(),
   status: z.string().min(1, "Status is required"),
   notes: z.string().optional(),
+  photos: z.any().optional(),
 });
 
 type OrderFormData = z.infer<typeof orderSchema>;
@@ -49,18 +48,38 @@ const OrderForm: React.FC<OrderFormProps> = ({ onClose }) => {
   const form = useForm<OrderFormData>({
     resolver: zodResolver(orderSchema),
     defaultValues: {
-      truck_id: "",
-      customer_id: "",
+      carrier_id: "",
       delivery_date: new Date(),
       pickup_date: new Date(),
       pickup_location: "",
       delivery_location: "",
-      car_details: "",
+      vehicle_id: "",
       price: undefined,
       status: "",
       notes: "",
+      photos: "",
     },
   });
+
+  const [carrierName, setCarrierName] = useState("");
+  const [carrierOptions, setCarrierOptions] = useState([]);
+
+  useEffect(() => {
+    const fetchCarriers = async () => {
+      if (carrierName.length > 2) {
+        const { data, error } = await supabase
+          .from("carriers")
+          .select("id, name")
+          .ilike("name", `%${carrierName}%`);
+
+        if (!error) {
+          setCarrierOptions(data);
+        }
+      }
+    };
+
+    fetchCarriers();
+  }, [carrierName]);
 
   const onSubmit = async (data: OrderFormData) => {
     // Convert dates to strings in ISO 8601 format
@@ -84,25 +103,35 @@ const OrderForm: React.FC<OrderFormProps> = ({ onClose }) => {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <FormField
           control={form.control}
-          name="truck_id"
+          name="carrier_id"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Truck ID</FormLabel>
+              <FormLabel>Carrier Name</FormLabel>
               <FormControl>
-                <Input placeholder="Truck ID" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="customer_id"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Customer ID</FormLabel>
-              <FormControl>
-                <Input placeholder="Customer ID" {...field} />
+                <div className="relative">
+                  <Input
+                    placeholder="Carrier Name"
+                    value={carrierName}
+                    onChange={(e) => setCarrierName(e.target.value)}
+                  />
+                  {carrierOptions.length > 0 && (
+                    <ul className="absolute z-10 w-full bg-white border border-gray-200 rounded mt-1 max-h-48 overflow-auto">
+                      {carrierOptions.map((carrier) => (
+                        <li
+                          key={carrier.id}
+                          className="p-2 cursor-pointer hover:bg-gray-100"
+                          onClick={() => {
+                            field.onChange(carrier.id);
+                            setCarrierName(carrier.name);
+                            setCarrierOptions([]);
+                          }}
+                        >
+                          {carrier.name}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -210,12 +239,12 @@ const OrderForm: React.FC<OrderFormProps> = ({ onClose }) => {
         />
         <FormField
           control={form.control}
-          name="car_details"
+          name="vehicle_id"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Car Details</FormLabel>
+              <FormLabel>Vehicle ID</FormLabel>
               <FormControl>
-                <Textarea placeholder="Car Details" {...field} />
+                <Input placeholder="Vehicle ID" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

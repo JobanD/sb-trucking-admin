@@ -170,7 +170,7 @@ export type Database = {
           pickup_date: string
           pickup_location: string
           price: number | null
-          status: string
+          status: string | null
           vehicle_id: string | null
         }
         Insert: {
@@ -183,7 +183,7 @@ export type Database = {
           pickup_date: string
           pickup_location: string
           price?: number | null
-          status: string
+          status?: string | null
           vehicle_id?: string | null
         }
         Update: {
@@ -196,7 +196,7 @@ export type Database = {
           pickup_date?: string
           pickup_location?: string
           price?: number | null
-          status?: string
+          status?: string | null
           vehicle_id?: string | null
         }
         Relationships: [

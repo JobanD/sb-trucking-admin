@@ -1,24 +1,21 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import { AgGridReact } from "ag-grid-react";
-import "ag-grid-community/styles/ag-grid.css";
-import "ag-grid-community/styles/ag-theme-alpine.css";
-import "@/styles/ag-grid-theme.css";
-import { ColDef, ModuleRegistry } from "ag-grid-community";
+import { useTheme } from "next-themes";
+import { ColDef } from "ag-grid-community";
 
 export type Truck = {
-  TruckType: string | null;
-  TruckNo: string | null;
-  PlateNo: string | null;
-  VinNumber: string | null;
-  TruckOwner: string | null;
-  Fleet: string | null;
-  Company: string | null;
-  IFTA: string | null;
-  FuelType: string | null;
-  MMY: string | null;
-  DriversName: string | null;
-  Status: string | null;
-  pkey: string;
+  truck_no: string | null;
+  plate_no: string | null;
+  vin_number: string | null;
+  truck_owner: string | null;
+  fleet: string | null;
+  truck_type: string | null;
+  ifta: string | null;
+  fuel_type: string | null;
+  mmy: string | null;
+  drivers_name: string | null;
+  status: string | null;
+  company: string | null;
 };
 
 interface TruckGridProps {
@@ -26,33 +23,64 @@ interface TruckGridProps {
 }
 
 const TruckGrid: React.FC<TruckGridProps> = ({ rowData }) => {
-  const [columnDefs] = useState<ColDef[]>([
-    { headerName: "Truck Type", field: "TruckType" },
-    { headerName: "Truck No.", field: "TruckNo" },
-    { headerName: "Plate No.", field: "PlateNo" },
-    { headerName: "Vin Number", field: "VinNumber" },
-    { headerName: "Truck Owner", field: "TruckOwner" },
-    { headerName: "Fleet", field: "Fleet" },
-    { headerName: "Company", field: "Company" },
-    { headerName: "IFTA", field: "IFTA" },
-    { headerName: "Fuel Type", field: "FuelType" },
-    { headerName: "MMY", field: "MMY" },
-    { headerName: "Driver's Name", field: "DriversName" },
-    { headerName: "Status", field: "Status" },
-    { headerName: "PKEY", field: "pkey" },
-  ]);
+  const { theme } = useTheme();
+  const [isCssLoaded, setIsCssLoaded] = useState(false);
+
+  useEffect(() => {
+    console.log("Theme changed:", theme);
+    const loadStyles = async () => {
+      console.log("Loading CSS for theme:", theme);
+      if (theme === "dark") {
+        await import("@/styles/ag-grid-theme-dark.css");
+      } else {
+        await import("@/styles/ag-grid-theme-light.css");
+      }
+      setIsCssLoaded(true);
+      console.log("CSS loaded for theme:", theme);
+    };
+    loadStyles();
+  }, [theme]);
+
+  const columnDefs: ColDef[] = useMemo(
+    () => [
+      { headerName: "Truck No.", field: "truck_no" },
+      { headerName: "Plate No.", field: "plate_no" },
+      { headerName: "Vin Number", field: "vin_number" },
+      { headerName: "Truck Owner", field: "truck_owner" },
+      { headerName: "Fleet", field: "fleet" },
+      { headerName: "Truck Type", field: "truck_type" },
+      { headerName: "IFTA", field: "ifta" },
+      { headerName: "Fuel Type", field: "fuel_type" },
+      { headerName: "MMY", field: "mmy" },
+      { headerName: "Driver's Name", field: "drivers_name" },
+      { headerName: "Status", field: "status" },
+      { headerName: "Company", field: "company" },
+    ],
+    []
+  );
 
   const defaultColDef = useMemo(() => {
+    console.log("Generating default column definitions");
     return {
       filter: "agTextColumnFilter",
-      floatingFilter: true,
+      floatingFilter: false,
       sortable: true,
       resizable: true,
     };
   }, []);
 
+  useEffect(() => {
+    console.log("Row data updated:", rowData);
+  }, [rowData]);
+
+  if (!isCssLoaded) {
+    console.log("CSS not yet loaded, displaying loading indicator");
+    return <div>Loading...</div>;
+  }
+
+  console.log("Rendering AgGridReact component");
   return (
-    <div className="ag-theme-custom" style={{ height: 600, width: "100%" }}>
+    <div className={`ag-theme-custom`} style={{ height: 600, width: "100%" }}>
       <AgGridReact
         rowData={rowData}
         columnDefs={columnDefs}
@@ -60,7 +88,7 @@ const TruckGrid: React.FC<TruckGridProps> = ({ rowData }) => {
         rowSelection="multiple"
         suppressRowClickSelection={true}
         pagination={true}
-        paginationPageSize={10}
+        paginationPageSize={20}
       />
     </div>
   );

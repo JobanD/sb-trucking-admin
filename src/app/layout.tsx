@@ -1,18 +1,11 @@
 import type { Metadata, Viewport } from "next";
 import { Inter as FontSans } from "next/font/google";
-import "@/styles/globals.css";
+import "./globals.css";
 import { cn } from "@/lib/utils";
 
 // providers
 import { ThemeProvider } from "@/styles/theme-provider";
 import { TanstackQueryClientProvider } from "@/utils/tanstack/ClientProvider";
-import { ReactQueryClientProvider } from "@/components/react-query-client-provider";
-
-// components
-import { Sidebar } from "@/components/Sidebar";
-// import { SiteHeader } from '@/components/SiteHeader';
-import { SiteFooter } from "@/components/SiteFooter";
-import { CookieButton } from "@/components/CookieButton";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -39,53 +32,17 @@ export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <TanstackQueryClientProvider>
       <html lang="en">
-        <body
-          className={cn(
-            "min-h-screen bg-background font-sans antialiased",
-            fontSans.variable
-          )}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
         >
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="light"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <div className="relative flex min-h-screen flex-col">
-              <Sidebar />
-              {/* <SiteHeader /> */}
-              <div className="ml-[300px] mt-3">{children}</div>
-              <SiteFooter />
-            </div>
-            <CookieButton />
-            {/* <TailwindIndicator /> */}
-          </ThemeProvider>
-        </body>
+          <body className={cn("flex font-sans antialiased", fontSans.variable)}>
+            {children}
+          </body>
+        </ThemeProvider>
       </html>
     </TanstackQueryClientProvider>
   );
-}
-
-{
-  /* <ReactQueryClientProvider>
-<html lang="en">
-  <body
-    className={cn(
-      "min-h-screen bg-background font-sans antialiased",
-      fontSans.variable
-    )}
-  >
-    <ThemeProvider
-      attribute="class"
-      defaultTheme="light"
-      enableSystem
-      disableTransitionOnChange
-    >
-      <Sidebar />
-      <main className="ml-[300px] mt-3">{children}</main>
-    </ThemeProvider>
-  </body>
-</html>
-</ReactQueryClientProvider>
-); */
 }

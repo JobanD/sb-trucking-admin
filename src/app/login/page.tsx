@@ -1,5 +1,4 @@
 import React from "react";
-import SupabaseLogo from "@/components/logo-supabase";
 import { login, signup } from "./action";
 import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -11,9 +10,7 @@ export default function LoginPage() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <div className="bg-white/10 rounded-md p-6 border border-white/5 w-[300px]">
-        <div className="flex justify-center mb-6 mt-2">
-          <SupabaseLogo />
-        </div>
+        <div className="flex justify-center mb-6 mt-2"></div>
 
         <form className="flex flex-col gap-2">
           <Label htmlFor="email">Email:</Label>
